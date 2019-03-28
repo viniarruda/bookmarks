@@ -1,7 +1,8 @@
 import { 
   SEARCH_BOOKMARKS_REQUESTED, 
   SEARCH_BOOKMARKS_FULFILLED, 
-  SEARCH_BOOKMARKS_REJECTED, 
+  SEARCH_BOOKMARKS_REJECTED,
+  BOOKMARK_UPDATED,
 } from "./action-types";
 
 const INITIAL_STATE = {
@@ -33,6 +34,12 @@ export default function(state = INITIAL_STATE, action) {
         ...INITIAL_STATE,
         error: action.payload
       };
+    }
+    case BOOKMARK_UPDATED: {
+      return {
+        ...state,
+        list: action.payload
+      }
     }
     default:
       return state;

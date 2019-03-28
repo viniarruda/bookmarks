@@ -36,11 +36,10 @@ class Home extends React.Component {
           </FilterContent>
         </FilterContainer>
         <List>
-        {console.log('props:', this.props)}
           {
             bookmarks.list &&
               bookmarks.list.map((i, key) => 
-                <Card key={key} title={i.title} url={i.url} tags={i.newTags} />
+                <Card key={key} index={key} title={i.title} url={i.url} tags={i.newTags} />
               )
           }
         </List>

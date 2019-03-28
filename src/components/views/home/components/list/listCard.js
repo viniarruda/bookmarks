@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { editBookmarks, removeTags } from '../../../../../store/bookmarks/thunks'
 import dateFormat from 'dateformat'
 import colors from '../../../../layout/styled-components/colors'
+import EditForm from '../../containers/editForm'
 
 
 const CardContent = styled.div`
-  flex: 1;
   height: 150px;
-  min-width: 300px;
-  max-width: 300px;
   margin: 15px 15px;
   border-radius: 3px;
   box-shadow: 0px 10px 12px rgba(0,0,0,0.2);
@@ -46,62 +46,51 @@ const CardBottom = styled.div`
   margin-top: 20px;
 `;
 
-const Avatar = styled.div`
+const Grid = styled.div`
   flex: 1;
-  max-width: 30%;
+  display: flex;
+  flex-flow: column;
 `;
 
-const Name = styled.h1`
-  font-size: 16px;
-  flex: 1;
-  max-width: 60%;
-  text-transform: capitalize;
-  padding-top: 20px;
-  word-break: break-word;
+const Actions = styled.div`
+  display: flex;
+  flex-flow: row wrap;
 `;
 
-const Lock = styled.div`
-  flex: 1;
-  max-width: 10%;
-  text-align: right;
-  color: ${colors.lock};
-`
+const Buttons = styled.div`
+  background: #e6e6e6;
+  margin: 5px;
+  cursor: pointer;
+`;
+const Url = styled.a`
+  
+`;
 
-const Image = styled.img`
-  width: 60px;
-  height: auto;
+const Tags = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+`;
+
+const DeletTag = styled.span`
+  position: absolute;
+  top: 0;
+  right: 2px;
   border-radius: 50%;
-  flex: 1;
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
 `;
 
-const Commits = styled.div`
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 50%;
-`;
+const Tag = styled.div`
+  border-radius: 10px;
+  background: ${colors.default};
+  padding: 5px;
+  margin: 5px;
+  max-width: 50px;
+  text-align: center;
+  position: relative;
 
-const LinkCommits = styled(Link)`
-  text-decoration: none;
-  padding-left: 5px;
-`;
-
-const Stars = styled.div`
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 50%;
-  text-align: right;
-`;
-
-const Star = styled.i`
-  color: yellow;
-  padding-right: 5px;
-`;
-
-const Update = styled.div`
-  margin-top: 5px;
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 100%;
 `;
 
 const Card = (props) => {
@@ -111,6 +100,17 @@ const Card = (props) => {
     setEdit(edit ? false : true)
   }
 
+  const handleSubmit = async ({title, url, tags}) => {
+    let newTags = tags.split(" ");
+    await setEdit(false)
+    return await props.editBookmarks({title, url, newTags});
+  };
+
+  const handleDeletTag = async (tag, indexTag) => {
+    const { index, removeTags } = props
+    return await removeTags(tag, indexTag, index)
+  }
+
   return (
     <CardContent>
       <CardTop>
@@ -118,21 +118,32 @@ const Card = (props) => {
       </CardTop>
       {
         edit ?
-          <h1>Edição</h1>
+          <EditForm index={props.index} onSubmit={handleSubmit}/>
           : 
           <CardBottom>
-            <span>{props.url}</span>
-            {
-              props.tags && props.tags.map((tag,key) => 
-                  <div key={key}>{tag}</div>
-                ) 
-            }
-            <div onClick={() => handleEditItem()}>Editar</div>
-            <div>Excluir</div>
+            <Grid>
+              <Url>{props.url}</Url>
+              <Tags>
+                {
+                props.tags && props.tags.map((tag,key) => 
+                    <Tag key={key}><DeletTag onClick={() => handleDeletTag(tag, key)}></DeletTag>{tag}</Tag>
+                  ) 
+                }
+              </Tags>
+            </Grid>
+            <Grid>
+              <Actions>
+                <Buttons onClick={() => handleEditItem()}>Editar</Buttons>
+                <Buttons>Excluir</Buttons>
+              </Actions>
+            </Grid>
           </CardBottom>
       }
     </CardContent>
   )
 }
 
-export default Card;
+export default connect(null, {
+  editBookmarks,
+  removeTags
+})(Card);

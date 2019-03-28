@@ -71,5 +71,5 @@ const GithubForm = (props) => {
 }
 
 export default reduxForm({
-  form: 'githubForm'
+  form: 'bookmarksForm'
 })(GithubForm)
