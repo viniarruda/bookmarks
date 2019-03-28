@@ -1,12 +1,5 @@
 # React Github List Repositories
 
-Features ES6:
-- Spread
- - Ex
-- Ex2
- - ex
-
-
 This project include:
 - Redux
 - Redux-form
