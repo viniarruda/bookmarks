@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Loading from '../../layout/styled-components/spinner'
-import { registerBookmarks } from '../../../store/bookmarks/thunks'
+import { registerBookmarks, loadBookmarks } from '../../../store/bookmarks/thunks'
 import Content from './containers/content'
 import Form from './containers/form'
 import List from './components/list/list'
@@ -14,13 +14,13 @@ import Icon from '../../layout/styled-components/icon'
 
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props)
+
+  componentDidMount() {
+    this.props.loadBookmarks();
   }
 
   handleSubmit = async ({title, url, tags}) => {
-    let newTags = tags.split(" ");
-    return await this.props.registerBookmarks({title, url, newTags});
+    return await this.props.registerBookmarks({title, url, tags});
   };
 
 
@@ -35,11 +35,14 @@ class Home extends React.Component {
             <Form onSubmit={this.handleSubmit}/>
           </FilterContent>
         </FilterContainer>
+        {
+          console.log(bookmarks)
+        }
         <List>
           {
             bookmarks.list &&
               bookmarks.list.map((i, key) => 
-                <Card key={key} index={key} title={i.title} url={i.url} tags={i.newTags} />
+                <Card key={key} index={key} title={i.title} url={i.url} tags={i.tags} />
               )
           }
         </List>
@@ -53,5 +56,6 @@ const mapStateToprops = (state) => ({
 })
 
 export default connect(mapStateToprops, {
+  loadBookmarks,
   registerBookmarks
 })(Home)

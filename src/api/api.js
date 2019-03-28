@@ -1,6 +1,6 @@
 const url = {
-  dev: 'https://api.github.com/',
-  prod: ''
+  dev: 'http://localhost:3004',
+  prod: 'https://api-bookmarks.herokuapp.com'
 }
 
 export default url

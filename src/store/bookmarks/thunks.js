@@ -2,12 +2,54 @@ import {
   searchBookmarksRequest,
   searchBookmarksFulfilled,
   searchBookmarksRejected,
+  createBookmarksRequest,
+  createBookmarksFulfilled,
+  createBookmarksRejected,
   bookmarkUpdated
 } from './actions'
+import { searchBookmarks, createBookmarks } from './queries'
 import { reset } from 'redux-form'
 
-export const registerBookmarks = ({title, url, newTags}) => async (dispatch, getState) => {
-  dispatch(searchBookmarksFulfilled({title, url, newTags}))
+
+export const loadBookmarks = () => async (dispatch, getState) => {
+  dispatch(searchBookmarksRequest())
+  const response = await searchBookmarks()
+  
+  if(!response) {
+    const error = 'Sem bookmarks'
+    dispatch(searchBookmarksRejected(error))
+
+    throw 'Error' 
+  }
+  let r = response.map(i => {
+  	if (i.tags) {
+  		i.tags.split(' ')
+  	}
+  	return i
+  })
+  dispatch(searchBookmarksFulfilled(r))
+  return true
+}
+
+export const registerBookmarks = ({title, url, tags}) => async (dispatch, getState) => {
+	console.log('teste', title, url, tags)
+  dispatch(createBookmarksRequest())
+  const response = await createBookmarks({title, url, tags})
+  
+  if(!response) {
+    const error = 'Cadastro não efetivado'
+    dispatch(createBookmarksRejected(error))
+
+    throw 'Error' 
+  }
+  let r = response.map(i => {
+  	if (i.tags) {
+  		i.tags.split(" ")
+  	}
+  	return i
+  })
+  console.log('aaaaaaaaaaa', r)
+  dispatch(createBookmarksFulfilled(r))
   dispatch(reset('bookmarksForm'))
   return true
 }

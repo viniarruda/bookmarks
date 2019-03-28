@@ -1,14 +1,18 @@
 import axios from 'axios'
 import url from '../../api/api'
 
-export const searchRepos = (user) => {
-  return axios.get(url.dev + 'users/' + user + '/repos?per_page=100')
+export const searchBookmarks = (user) => {
+  return axios.get(url.prod + '/bookmarks')
   .then(res => res.data)
   .catch(err => err.response.data)
 }
 
-export const searchCommits = (user, repo) => {
-  return axios.get(url.dev + 'repos/' + user + '/' + repo + '/commits')
+export const createBookmarks = ({title, url, tags}) => {
+  return axios.post('https://api-bookmarks.herokuapp.com/bookmarks', {
+    title: title,
+    url: url,
+    tags: tags
+  })
   .then(res => res.data)
   .catch(err => err.response.data)
 }

@@ -124,11 +124,14 @@ const Card = (props) => {
             <Grid>
               <Url>{props.url}</Url>
               <Tags>
-                {
+                {/*
                 props.tags && props.tags.map((tag,key) => 
-                    <Tag key={key}><DeletTag onClick={() => handleDeletTag(tag, key)}></DeletTag>{tag}</Tag>
+                    <Tag key={key}>
+                      <DeletTag onClick={() => handleDeletTag(tag, key)} />
+                      {tag}
+                    </Tag>
                   ) 
-                }
+                */}
               </Tags>
             </Grid>
             <Grid>
