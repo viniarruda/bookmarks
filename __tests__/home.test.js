@@ -10,7 +10,7 @@ const mockStore = configureStore()
 const initialState = {
   bookmarks: {
     loading: false,
-    list: [],
+    list: null,
     error: null,
   }
 }
