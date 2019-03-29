@@ -42,7 +42,7 @@ class Home extends React.Component {
           {
             bookmarks.list &&
               bookmarks.list.map((i, key) => 
-                <Card key={key} index={key} title={i.title} url={i.url} tags={i.tags} />
+                <Card key={key} id={i.id} title={i.title} url={i.url} tags={i.tags} />
               )
           }
         </List>

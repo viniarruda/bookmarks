@@ -8,6 +8,7 @@ export const searchBookmarks = (user) => {
 }
 
 export const createBookmarks = ({title, url, tags}) => {
+	console.log(url)
   return axios.post('https://api-bookmarks.herokuapp.com/bookmarks', {
     title: title,
     url: url,

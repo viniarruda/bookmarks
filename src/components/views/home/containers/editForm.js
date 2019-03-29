@@ -10,11 +10,11 @@ import inputText from '../components/inputText'
 class EditBookmarksForm extends React.Component {
   
   componentWillMount() {
-    const { load, bookmarks, index, initialize } = this.props
+    const { load, bookmarks, id, initialize } = this.props
     const data = {
-      title: bookmarks.list[index].title,
-      url: bookmarks.list[index].url,
-      tags: bookmarks.list[index].newTags.join(" ")
+      title: bookmarks.list[id].title,
+      url: bookmarks.list[id].url,
+      tags: bookmarks.list[id].newTags.join(" ")
     }
     initialize(data);
   }

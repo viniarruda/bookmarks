@@ -21,13 +21,8 @@ export const loadBookmarks = () => async (dispatch, getState) => {
 
     throw 'Error' 
   }
-  let r = response.map(i => {
-  	if (i.tags) {
-  		i.tags.split(' ')
-  	}
-  	return i
-  })
-  dispatch(searchBookmarksFulfilled(r))
+
+  dispatch(searchBookmarksFulfilled(response))
   return true
 }
 
@@ -42,14 +37,8 @@ export const registerBookmarks = ({title, url, tags}) => async (dispatch, getSta
 
     throw 'Error' 
   }
-  let r = response.map(i => {
-  	if (i.tags) {
-  		i.tags.split(" ")
-  	}
-  	return i
-  })
-  console.log('aaaaaaaaaaa', r)
-  dispatch(createBookmarksFulfilled(r))
+
+  dispatch(createBookmarksFulfilled(response))
   dispatch(reset('bookmarksForm'))
   return true
 }
@@ -70,17 +59,22 @@ export const editBookmarks = ({title, url, newTags}) => async (dispatch, getStat
 	dispatch(reset('editForm'))
   return true
 }
-export const removeTags = (tag, indexTag, index) => async (dispatch, getState) => {
+export const removeTags = (tag, id) => async (dispatch, getState) => {
 	const { bookmarks: { list }
 		} = getState();
 
-	let newInfos = list.map(i => {
-		if (i.newTags[indexTag] === tag) {
-			i.newTags.splice(indexTag, 1)
+	let r;
+  let newInfos = list.map(i => {
+		if (i.id === id) {
+      r = i.tags.replace(tag)
 		}
 		return i
 	})
-
-	dispatch(bookmarkUpdated(newInfos))
+  console.log(newInfos, r)
+  let t = list.find(l => l.id === id)
+  t.tags = r;
+  console.log('test', t)
+  list[id] = t;
+	dispatch(bookmarkUpdated(list))
 	return true
 }

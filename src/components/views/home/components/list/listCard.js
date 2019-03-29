@@ -106,9 +106,9 @@ const Card = (props) => {
     return await props.editBookmarks({title, url, newTags});
   };
 
-  const handleDeletTag = async (tag, indexTag) => {
-    const { index, removeTags } = props
-    return await removeTags(tag, indexTag, index)
+  const handleDeletTag = async (tag) => {
+    const { removeTags, id } = props
+    return await removeTags(tag, id)
   }
 
   return (
@@ -118,20 +118,20 @@ const Card = (props) => {
       </CardTop>
       {
         edit ?
-          <EditForm index={props.index} onSubmit={handleSubmit}/>
+          <EditForm id={props.id} onSubmit={handleSubmit}/>
           : 
           <CardBottom>
             <Grid>
               <Url>{props.url}</Url>
               <Tags>
-                {/*
-                props.tags && props.tags.map((tag,key) => 
+                {
+                  props.tags && props.tags.split(" ").map((tag, key) => 
                     <Tag key={key}>
-                      <DeletTag onClick={() => handleDeletTag(tag, key)} />
+                      <DeletTag onClick={() => handleDeletTag(tag)} />
                       {tag}
                     </Tag>
-                  ) 
-                */}
+                  )
+                }
               </Tags>
             </Grid>
             <Grid>
