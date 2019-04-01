@@ -5,11 +5,8 @@ const Form = styled.div`
   border-radius: 5px;
   text-align: center;
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   flex: 1;
-  @media (max-width: 500px) {
-    max-width: 100%;
-  }
 `;
 
 

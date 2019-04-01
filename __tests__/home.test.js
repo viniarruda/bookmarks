@@ -28,5 +28,4 @@ describe('Testing Home Component', () => {
  })
 })
 
-
 // Shallow = simulate DOM

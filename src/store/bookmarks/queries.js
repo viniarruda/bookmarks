@@ -1,19 +1,32 @@
 import axios from 'axios'
-import url from '../../api/api'
+import urlApi from '../../api/api'
 
 export const searchBookmarks = (user) => {
-  return axios.get(url.dev + '/favoritos')
+  return axios.get(urlApi.dev + '/bookmarks')
   .then(res => res.data)
   .catch(err => err.response.data)
 }
 
 export const createBookmarks = ({title, url, newTags}) => {
-	console.log(url)
-  return axios.post('http://localhost:3004/favoritos', {
-    title: title,
-    url: url,
-    tags: newTags
+  return axios.post(urlApi.dev + '/bookmarks', {
+    bookmark: {
+      title: title,
+      url: url,
+      tags: newTags
+    }
   })
+  .then(res => res.data)
+  .catch(err => err.response.data)
+}
+
+export const deleteBookmark = (id) => {
+  return axios.delete(urlApi.dev + '/bookmarks/' + id)
+  .then(res => res.data)
+  .catch(err => err.response.data)
+}
+
+export const deleteTagging = (idBookmark, idTag) => {
+  return axios.delete(urlApi.dev + '/bookmarks/' + idBookmark + '/tag/' + idTag)
   .then(res => res.data)
   .catch(err => err.response.data)
 }

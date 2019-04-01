@@ -121,8 +121,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/mnt/c/Users/vinny/Documents/Dev/github-repositories/node_modules/jest-watch-typeahead/filename.js",
-      "/mnt/c/Users/vinny/Documents/Dev/github-repositories/node_modules/jest-watch-typeahead/testname.js"
+      "<rootDir>/node_modules/jest-watch-typeahead/filename.js",
+      "<rootDir>/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {
@@ -132,5 +132,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "redux-mock-store": "^1.5.3"
   }
 }

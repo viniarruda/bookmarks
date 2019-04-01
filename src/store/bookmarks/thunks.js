@@ -5,9 +5,16 @@ import {
   createBookmarksRequest,
   createBookmarksFulfilled,
   createBookmarksRejected,
-  bookmarkUpdated
+  deleteBookmarksRequest,
+  deleteBookmarksFulfilled,
+  deleteBookmarksRejected,
+  deleteTagRequest,
+  deleteTagFulfilled,
+  deleteTagRejected,
+  bookmarkUpdated,
+  filterBookmark
 } from './actions'
-import { searchBookmarks, createBookmarks } from './queries'
+import { searchBookmarks, createBookmarks, deleteBookmark, deleteTagging } from './queries'
 import { reset } from 'redux-form'
 
 
@@ -28,7 +35,7 @@ export const loadBookmarks = () => async (dispatch, getState) => {
 
 export const registerBookmarks = ({title, url, tags}) => async (dispatch, getState) => {
   dispatch(createBookmarksRequest())
-  let newTags = tags.split(" ");
+  let newTags = tags.toLowerCase().split(" ");
   const response = await createBookmarks({title, url, newTags})
   
   if(!response) {
@@ -59,22 +66,40 @@ export const editBookmarks = ({title, url, newTags}) => async (dispatch, getStat
 	dispatch(reset('editForm'))
   return true
 }
-export const removeTags = (tag, id) => async (dispatch, getState) => {
-	const { bookmarks: { list }
-		} = getState();
 
-	let r;
-  let newInfos = list.map(i => {
-		if (i.id === id) {
-      r = i.tags.replace(tag)
-		}
-		return i
-	})
-  console.log(newInfos, r)
-  let t = list.find(l => l.id === id)
-  t.tags = r;
-  console.log('test', t)
-  list[id] = t;
-	dispatch(bookmarkUpdated(list))
+export const removeTags = (idBookmark, idTag) => async (dispatch, getState) => {
+  dispatch(deleteTagRequest())
+  const response = await deleteTagging(idBookmark, idTag)
+
+	if(!response) {
+    const error = 'Não foi possível deletar'
+    dispatch(deleteTagRejected(error))
+
+    throw 'Error' 
+  }
+
+  dispatch(deleteTagFulfilled(response))
 	return true
+}
+
+export const filter = (bookmarks) => async (dispatch, getState) => {
+  dispatch(bookmarkUpdated(bookmarks))
+
+  dispatch(filterBookmark('Bookmark não encontrado'))
+  return true
+}
+
+export const deleteBookmarks = (id) => async (dispatch, getState) => {
+  dispatch(deleteBookmarksRequest())
+  const response = await deleteBookmark(id)
+  
+  if(!response) {
+    const error = 'Não foi possível deletar'
+    dispatch(deleteBookmarksRejected(error))
+
+    throw 'Error' 
+  }
+
+  dispatch(deleteBookmarksFulfilled(response))
+  return true
 }

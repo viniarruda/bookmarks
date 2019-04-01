@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Loading from '../../layout/styled-components/spinner'
-import { registerBookmarks, loadBookmarks } from '../../../store/bookmarks/thunks'
+import { registerBookmarks, loadBookmarks, filter } from '../../../store/bookmarks/thunks'
 import Content from './containers/content'
 import Form from './containers/form'
 import List from './components/list/list'
@@ -12,27 +12,50 @@ import Filters from './components/filter/filters'
 import FilterIcon from './components/filter/filterIcon'
 import Icon from '../../layout/styled-components/icon'
 import SearchForm from './containers/searchForm'
-
+import Error from '../../layout/styled-components/error'
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      search: false
+      search: false,
+      filtering: false
     }
     this.handleSearch = this.handleSearch.bind(this)
+    this.searchSubmit = this.searchSubmit.bind(this)
   }
 
   componentDidMount() {
-    //this.props.loadBookmarks();
+    this.props.loadBookmarks();
   }
 
   handleSubmit = async ({title, url, tags}) => {
     return await this.props.registerBookmarks({title, url, tags});
   };
 
-  searchSubmit = async () => {
-    console.log('search')
+  handleCaptalize = (string) => {
+    return string.toLowerCase();
+  }
+
+  searchSubmit = async ({term}) => {
+    let ArrayFiltered = []
+    let ArrayTags = []
+    let findTags
+    //if (term === undefined && !this.props.bookmarks.list) {
+    //  this.props.loadBookmarks();
+    //}
+    if (term && this.props.bookmarks.list) {
+      //ArrayFiltered = this.props.bookmarks.list.filter(f => f.title.includes(term)))
+      ArrayTags = this.props.bookmarks.list.map(b => b.tags.filter(f => f.name.includes(this.handleCaptalize(term))))
+      //ArrayFiltered = this.props.bookmarks.list.filter(i =>  i.tags.includes(ArrayTags))
+      ArrayFiltered = this.props.bookmarks.list.filter(i =>  {
+        
+      })
+      console.log(this.props.bookmarks.list)
+    } else if (!term && !this.props.bookmarks.list) {
+      return await this.props.loadBookmarks()
+    }
+    return await this.props.filter(ArrayFiltered)
   }
 
   handleSearch(param) {
@@ -51,15 +74,13 @@ class Home extends React.Component {
           this.state.search ?
             <FilterContainer>
               <FilterContent>
-                <Icon className="fa fa-plus" padding='true' onClick={() => this.handleSearch(false)} />
-                <SearchForm onSubmit={this.searchSubmit}/>
+                <SearchForm onChange={this.searchSubmit} onSubmit={this.searchSubmit} openSearch={() => this.handleSearch(false)} />
               </FilterContent>
             </FilterContainer> 
             : 
             <FilterContainer>
               <FilterContent>
-                <Icon className="fa fa-search" onClick={() => this.handleSearch(true)} /> 
-                <Form onSubmit={this.handleSubmit}/>
+                <Form onSubmit={this.handleSubmit} openSearch={() => this.handleSearch(true)}/>
               </FilterContent>
             </FilterContainer>
         }
@@ -70,8 +91,8 @@ class Home extends React.Component {
         <List>
           {
             bookmarks.list &&
-              bookmarks.list.map((i, key) => 
-                <Card key={key} id={i.id} title={i.title} url={i.url} tags={i.tags} />
+              bookmarks.list.map((i) => 
+                <Card key={i.id} id={i.id} title={i.title} url={i.url} tags={i.tags} />
               )
           }
         </List>
@@ -86,5 +107,6 @@ const mapStateToprops = (state) => ({
 
 export default connect(mapStateToprops, {
   loadBookmarks,
-  registerBookmarks
+  registerBookmarks,
+  filter
 })(Home)

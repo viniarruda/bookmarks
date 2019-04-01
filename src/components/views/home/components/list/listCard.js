@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { editBookmarks, removeTags } from '../../../../../store/bookmarks/thunks'
+import { editBookmarks, removeTags, deleteBookmarks } from '../../../../../store/bookmarks/thunks'
 import dateFormat from 'dateformat'
 import colors from '../../../../layout/styled-components/colors'
 import EditForm from '../../containers/editForm'
@@ -40,10 +40,12 @@ const Grid = styled.div`
   justify-content: center;
 `;
 
-
 const Actions = styled.div`
   display: flex;
   flex-flow: row wrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: ${colors.gray};
 `;
 
 const Buttons = styled.div`
@@ -54,6 +56,11 @@ const Buttons = styled.div`
 const Url = styled.a`
   color: ${colors.links};
   margin: 5px 0;
+  cursor: pointer;
+  text-decoration: none;
+  &:visited {
+    color: ${colors.default};
+  }
 `;
 
 const Tags = styled.div`
@@ -64,6 +71,10 @@ const Tags = styled.div`
 const DeletTag = styled.span`
   font-size: 18px;
   cursor: pointer;
+`;
+
+const DeletBookmark = styled.i`
+  margin: 0 5px;
 `;
 
 const Close = styled.i`
@@ -100,9 +111,12 @@ const Card = (props) => {
     return await props.editBookmarks({title, url, newTags});
   };
 
-  const handleDeletTag = async (tag) => {
-    const { removeTags, id } = props
-    return await removeTags(tag, id)
+  const handleDeleteBookmark = async (id) => {
+    return await props.deleteBookmarks(id)
+  }
+
+  const handleDeleteTag = async (idBookmark, idTag) => {
+    return await props.removeTags(idBookmark, idTag)
   }
 
   return (
@@ -115,13 +129,13 @@ const Card = (props) => {
           : 
           <Grid>
             <Title>{props.title}</Title>
-            <Url>{props.url}</Url>
+            <Url href={props.url}>{props.url}</Url>
               <Tags>
                 {
-                  props.tags && props.tags.map((tag, key) => 
-                    <Tag key={key}>
-                      {tag}
-                      <DeletTag onClick={() => handleDeletTag(tag)}><Close className="fa fa-times"/></DeletTag>
+                  props.tags && props.tags.map((tag) => 
+                    <Tag key={tag.id}>
+                      {tag.name}
+                      <DeletTag onClick={() => handleDeleteTag(props.id, tag.id)}><Close className="fa fa-times"/></DeletTag>
                     </Tag>
                   )
                 }
@@ -129,9 +143,10 @@ const Card = (props) => {
           </Grid>
       }
         <Grid align="flex-end">
-          <Actions>
-            <i className="fa fa-edit"  onClick={() => handleEditItem()}>Editar</i>
-            <i className="fa fa-trash" />
+          <Actions onClick={() => handleDeleteBookmark(props.id)}>
+            {/*<i className="fa fa-edit"  onClick={() => handleEditItem()}>Editar</i>*/}
+            <DeletBookmark className="fa fa-trash"/>
+            Delete
           </Actions>
         </Grid>
     </CardContent>
@@ -140,5 +155,6 @@ const Card = (props) => {
 
 export default connect(null, {
   editBookmarks,
-  removeTags
+  removeTags,
+  deleteBookmarks
 })(Card);
