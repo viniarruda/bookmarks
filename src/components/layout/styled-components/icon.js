@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import colors from './colors'
 
 const Icon = styled.i`
-  padding: 0 5px;
+  font-size: 30px;
+  color: ${props => props.color === 'default' ? colors.default : colors.gray};
+  padding: 10px 20px 20px;
   cursor: pointer;
   &:hover {
     opacity: .6;

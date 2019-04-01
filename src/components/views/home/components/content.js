@@ -8,8 +8,6 @@ const Content = styled.div`
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  background: rgb(176,219,238);
-  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 `;
 
 export default Content;

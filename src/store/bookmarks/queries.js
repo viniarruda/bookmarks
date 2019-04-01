@@ -2,17 +2,17 @@ import axios from 'axios'
 import url from '../../api/api'
 
 export const searchBookmarks = (user) => {
-  return axios.get(url.prod + '/bookmarks')
+  return axios.get(url.dev + '/favoritos')
   .then(res => res.data)
   .catch(err => err.response.data)
 }
 
-export const createBookmarks = ({title, url, tags}) => {
+export const createBookmarks = ({title, url, newTags}) => {
 	console.log(url)
-  return axios.post('https://api-bookmarks.herokuapp.com/bookmarks', {
+  return axios.post('http://localhost:3004/favoritos', {
     title: title,
     url: url,
-    tags: tags
+    tags: newTags
   })
   .then(res => res.data)
   .catch(err => err.response.data)

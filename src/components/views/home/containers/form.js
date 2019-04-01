@@ -43,29 +43,29 @@ const GithubForm = (props) => {
   
   return (
     <Form>
+      <Button onClick={handleSubmit} disabled={submitting}>
+        <i className="fa fa-plus" />
+      </Button>
       { !!error && <Error>{error}</Error> }
       <Field
         validate={[required]}
         name="title"
         component={inputText}
         type="text"
-        placeholder="Título"
-        label='Titulo:' />
+        placeholder="Title"
+        />
       <Field
         name="url"
         component={inputText}
         type="text"
-        placeholder="Url"
-        label='Url:' />
+        placeholder="Link"
+        />
       <Field
         name="tags"
         component={inputText}
         type="text"
         placeholder="Tags"
-        label='Tags:' />
-      <Button onClick={handleSubmit} disabled={submitting}>
-        <i className="fa fa-search" />
-      </Button>
+        />
     </Form>
     )
 }

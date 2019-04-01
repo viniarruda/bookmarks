@@ -27,9 +27,9 @@ export const loadBookmarks = () => async (dispatch, getState) => {
 }
 
 export const registerBookmarks = ({title, url, tags}) => async (dispatch, getState) => {
-	console.log('teste', title, url, tags)
   dispatch(createBookmarksRequest())
-  const response = await createBookmarks({title, url, tags})
+  let newTags = tags.split(" ");
+  const response = await createBookmarks({title, url, newTags})
   
   if(!response) {
     const error = 'Cadastro não efetivado'

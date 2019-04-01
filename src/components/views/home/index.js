@@ -11,18 +11,35 @@ import FilterContent from './components/filter/content'
 import Filters from './components/filter/filters'
 import FilterIcon from './components/filter/filterIcon'
 import Icon from '../../layout/styled-components/icon'
+import SearchForm from './containers/searchForm'
 
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      search: false
+    }
+    this.handleSearch = this.handleSearch.bind(this)
+  }
 
   componentDidMount() {
-    this.props.loadBookmarks();
+    //this.props.loadBookmarks();
   }
 
   handleSubmit = async ({title, url, tags}) => {
     return await this.props.registerBookmarks({title, url, tags});
   };
 
+  searchSubmit = async () => {
+    console.log('search')
+  }
+
+  handleSearch(param) {
+    this.setState({
+      search: param
+    })
+  }
 
   render() {
     const { bookmarks } = this.props
@@ -30,13 +47,25 @@ class Home extends React.Component {
     return (
       <Content>
         <Loading show={bookmarks.loading} />
-        <FilterContainer>
-          <FilterContent>
-            <Form onSubmit={this.handleSubmit}/>
-          </FilterContent>
-        </FilterContainer>
         {
-          console.log(bookmarks)
+          this.state.search ?
+            <FilterContainer>
+              <FilterContent>
+                <Icon className="fa fa-plus" padding='true' onClick={() => this.handleSearch(false)} />
+                <SearchForm onSubmit={this.searchSubmit}/>
+              </FilterContent>
+            </FilterContainer> 
+            : 
+            <FilterContainer>
+              <FilterContent>
+                <Icon className="fa fa-search" onClick={() => this.handleSearch(true)} /> 
+                <Form onSubmit={this.handleSubmit}/>
+              </FilterContent>
+            </FilterContainer>
+        }
+
+        {
+          bookmarks.error && <div>{bookmarks.error}</div>
         }
         <List>
           {

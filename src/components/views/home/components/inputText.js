@@ -7,26 +7,27 @@ const InputContent = styled.div`
   flex-flow: column;
 `;
 
-const Label = styled.label`
-  padding-right: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  color: ${colors.gray};
-`;
-
 const Input = styled.input`
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  border: 1px solid ${colors.default};
-  padding: 5px;
+  border: 1px solid ${colors.gray};
+  margin: 0 15px;
+  padding: 15px;
+  width: 300px;
+  font-size: 16px;
+  color: ${colors.gray};
   &:focus {
-    border: 2px solid ${colors.blue};
+    border: 2px solid ${colors.default};
   }
 `;
 
 const Error = styled.span`
   color: red;
-  font-size: 13px;
+  font-size: 16px;
+`;
+
+const Margin = styled.div`
+  margin-top: 10px;
 `;
 
 const FlexRow = styled.div`
@@ -37,7 +38,6 @@ const FlexRow = styled.div`
 
 const inputText = ({
   input,
-  label,
   type,
   classname,
   placeholder,
@@ -45,14 +45,13 @@ const inputText = ({
 }) => (
   <InputContent>
     <FlexRow>
-      <Label>{label}</Label>
       <Input {...input} placeholder={placeholder} type={type} className={classname} />
     </FlexRow>
-    <div>
+    <Margin>
       {touched &&
         (error && <Error>{error}</Error>)
       }
-    </div>
+    </Margin>
   </InputContent>
 )
 
