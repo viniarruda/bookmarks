@@ -83,9 +83,18 @@ export const removeTags = (idBookmark, idTag) => async (dispatch, getState) => {
 }
 
 export const filter = (bookmarks) => async (dispatch, getState) => {
-  dispatch(bookmarkUpdated(bookmarks))
+  const { bookmarks: { list }} = getState()
 
-  dispatch(filterBookmark('Bookmark não encontrado'))
+
+  console.log('aaaaa', list)
+
+  if (bookmarks.length > 0) {
+    dispatch(bookmarkUpdated(bookmarks))
+  } else {
+    dispatch(filterBookmark('Bookmark não encontrado'))
+  }
+
+  
   return true
 }
 

@@ -8,9 +8,6 @@ import List from './components/list/list'
 import Card from './components/list/listCard'
 import FilterContainer from './components/filter/container'
 import FilterContent from './components/filter/content'
-import Filters from './components/filter/filters'
-import FilterIcon from './components/filter/filterIcon'
-import Icon from '../../layout/styled-components/icon'
 import SearchForm from './containers/searchForm'
 import Error from '../../layout/styled-components/error'
 
@@ -39,22 +36,19 @@ class Home extends React.Component {
 
   searchSubmit = async ({term}) => {
     let ArrayFiltered = []
-    let ArrayTags = []
-    let findTags
-    //if (term === undefined && !this.props.bookmarks.list) {
-    //  this.props.loadBookmarks();
-    //}
+
     if (term && this.props.bookmarks.list) {
-      //ArrayFiltered = this.props.bookmarks.list.filter(f => f.title.includes(term)))
-      ArrayTags = this.props.bookmarks.list.map(b => b.tags.filter(f => f.name.includes(this.handleCaptalize(term))))
-      //ArrayFiltered = this.props.bookmarks.list.filter(i =>  i.tags.includes(ArrayTags))
-      ArrayFiltered = this.props.bookmarks.list.filter(i =>  {
-        
-      })
-      console.log(this.props.bookmarks.list)
-    } else if (!term && !this.props.bookmarks.list) {
+      ArrayFiltered = this.props.bookmarks.list.filter(b => {
+        let index = b.tags.findIndex(t => {
+          return t.name.includes(this.handleCaptalize(term))
+        })
+        return index > -1
+      });
+    } else if (!term) {
+      console.log('entrou')
       return await this.props.loadBookmarks()
     }
+    console.log(this.props.bookmarks.list)
     return await this.props.filter(ArrayFiltered)
   }
 
