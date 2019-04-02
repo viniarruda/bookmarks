@@ -20,8 +20,4 @@ Projeto hospedado: https://hardcore-babbage-b5290f.netlify.com/
 
 ```npm start```
 
-## Teste para props do redux
-
-```npm run test```
-
 Enjoy!
