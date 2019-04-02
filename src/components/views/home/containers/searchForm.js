@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
-import { Field, reduxForm, FieldArray } from 'redux-form'
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import Form from '../components/form'
 import Icon from '../../../layout/styled-components/icon'
 import IconSearch from '../components/iconSearch'
 import GridField from '../components/gridField'
 import GridInput from '../components/gridInput'
 import Error from '../components/error'
-import { requiredTag } from '../../../../utils/validators'
 import inputText from '../components/inputText'
 
 const SearchForm = (props) => {

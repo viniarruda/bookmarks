@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { editBookmarks, removeTags, deleteBookmarks } from '../../../../../store/bookmarks/thunks'
-import dateFormat from 'dateformat'
 import colors from '../../../../layout/styled-components/colors'
 import EditForm from '../../containers/editForm'
 
@@ -48,11 +46,6 @@ const Actions = styled.div`
   color: ${colors.gray};
 `;
 
-const Buttons = styled.div`
-  background: #e6e6e6;
-  margin: 5px;
-  cursor: pointer;
-`;
 const Url = styled.a`
   color: ${colors.links};
   margin: 5px 0;

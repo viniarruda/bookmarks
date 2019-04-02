@@ -2,13 +2,13 @@ import axios from 'axios'
 import urlApi from '../../api/api'
 
 export const searchBookmarks = (user) => {
-  return axios.get(urlApi.dev + '/bookmarks')
+  return axios.get(urlApi.prod + '/bookmarks')
   .then(res => res.data)
   .catch(err => err.response.data)
 }
 
 export const createBookmarks = ({title, url, newTags}) => {
-  return axios.post(urlApi.dev + '/bookmarks', {
+  return axios.post(urlApi.prod + '/bookmarks', {
     bookmark: {
       title: title,
       url: url,
@@ -20,13 +20,13 @@ export const createBookmarks = ({title, url, newTags}) => {
 }
 
 export const deleteBookmark = (id) => {
-  return axios.delete(urlApi.dev + '/bookmarks/' + id)
+  return axios.delete(urlApi.prod + '/bookmarks/' + id)
   .then(res => res.data)
   .catch(err => err.response.data)
 }
 
 export const deleteTagging = (idBookmark, idTag) => {
-  return axios.delete(urlApi.dev + '/bookmarks/' + idBookmark + '/tag/' + idTag)
+  return axios.delete(urlApi.prod + '/bookmarks/' + idBookmark + '/tag/' + idTag)
   .then(res => res.data)
   .catch(err => err.response.data)
 }

@@ -9,7 +9,6 @@ import Card from './components/list/listCard'
 import FilterContainer from './components/filter/container'
 import FilterContent from './components/filter/content'
 import SearchForm from './containers/searchForm'
-import Error from '../../layout/styled-components/error'
 
 class Home extends React.Component {
   constructor(props) {
@@ -78,7 +77,6 @@ class Home extends React.Component {
               </FilterContent>
             </FilterContainer>
         }
-
         {
           bookmarks.error && <div>{bookmarks.error}</div>
         }

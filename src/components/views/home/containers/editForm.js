@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { Field, reduxForm, FieldArray, initialize } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import Form from '../components/form'
 import Button from '../components/button'
 import Error from '../components/error'
-import { required } from '../../../../utils/validators'
 import inputText from '../components/inputText'
 
 class EditBookmarksForm extends React.Component {
   
   componentWillMount() {
-    const { load, bookmarks, id, initialize } = this.props
+    const { bookmarks, id, initialize } = this.props
     const data = {
       title: bookmarks.list[id].title,
       url: bookmarks.list[id].url,
